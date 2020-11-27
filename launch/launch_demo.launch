@@ -1,0 +1,34 @@
+<launch>
+    <!--bota driver parameters -->
+    <arg name="standalone" default="true" />
+    <!-- setting sampling rate to 0.0 means that the sampling rate is derived from the FT filter configuration of the device -->
+    <arg name="time_step" default="0.0"/>
+    <arg name="num_spinners" default="1" />
+    <arg name="launch_prefix" default="nice -n -10" />
+    <arg name="launch_prefix_gdb" default="gdb -ex run --args" />
+    <arg name="rokubimini_setup_file" default="$(find bota_device_driver)/config/setup.yaml" />
+    <arg name="sensor_config_name" default="" />
+
+    <node name="rokubimini" pkg="bota_device_driver" type="bota_device_driver_node" output="screen" launch-prefix="$(arg launch_prefix)">
+        <param name="standalone" type="bool" value="$(arg standalone)"/>
+        <param name="num_spinners" type="int" value="$(arg num_spinners)"/>
+        <param name="time_step" type="double" value="$(arg time_step)"/>
+        <param name="rokubimini_setup_file" type="string" value="$(arg rokubimini_setup_file)"/>
+        <param name="sensor_config_name" type="string" value="$(arg sensor_config_name)"/>
+        <remap from="/rokubimini/ft_sensor0/ft_sensor_readings/imu" to="/imu/data_raw"/>
+    </node>
+
+    <!-- imu filter node for orinentaion estimation -->
+    <node name="imu_filter" pkg="imu_filter_madgwick" type="imu_filter_node">
+        <param name="reverse_tf" type="bool" value="true"/>
+        <param name="use_mag" type="bool" value="false"/>
+        <param name="fixed_frame" type="string" value="odom"/>
+        
+    </node>
+
+    <!-- URDF stuff -->
+    <param name="robot_description" command="$(find xacro)/xacro $(find rokubimini_description)/urdf/test.urdf.xacro" />
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find bota_demo)/config/urdf.rviz" />
+</launch>
