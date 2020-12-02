@@ -3,13 +3,13 @@ set_reading_to_nan_on_disconnect:  false
 imu_acceleration_range: 3
 imu_angular_rate_range: 3
 
-imu_acceleration_filter: 1
-imu_angular_rate_filter: 3
+imu_acceleration_filter: 3
+imu_angular_rate_filter: 5
 
 force_torque_filter:
   sinc_filter_size: 512
   chop_enable:      false
-  fir_disable:      true
+  fir_disable:      false
   fast_enable:      false
 
 force_torque_offset:
