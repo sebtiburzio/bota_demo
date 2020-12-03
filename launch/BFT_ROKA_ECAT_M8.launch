@@ -1,0 +1,6 @@
+<launch>
+    <include file="$(find bota_demo)/launch/bota_demo.launch">
+        <arg name="sensor" value="BFT_ROKA_ECAT_M8_robot" />
+        <arg name="is_ecat" value="true" />
+    </include>
+</launch>
