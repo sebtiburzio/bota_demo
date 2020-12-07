@@ -64,6 +64,7 @@
   <exec_depend>imu_filter_madgwick</exec_depend>
   <exec_depend>rokubimini_description</exec_depend>
   <exec_depend>rviz</exec_depend>
+  <exec_depend>realsense2_description</exec_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->
