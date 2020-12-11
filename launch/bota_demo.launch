@@ -1,6 +1,6 @@
 <launch>
     <arg name="sensor" default="BFT_ROKA_ECAT_M8_robot" />
-    <arg name="is_ecat" default="true" />
+    <arg name="imu" default="true" />
     <!--bota driver parameters -->
     <arg name="standalone" default="true" />
     <!-- setting sampling rate to 0.0 means that the sampling rate is derived from the FT filter configuration of the device -->
@@ -21,7 +21,7 @@
     </node>
 
     <!-- imu filter node for orinentaion estimation -->
-    <node if="$(arg is_ecat)" name="imu_filter" pkg="imu_filter_madgwick" type="imu_filter_node">
+    <node if="$(arg imu)" name="imu_filter" pkg="imu_filter_madgwick" type="imu_filter_node">
         <param name="reverse_tf" type="bool" value="true"/>
         <param name="use_mag" type="bool" value="false"/>
         <param name="fixed_frame" type="string" value="odom"/>
@@ -31,6 +31,6 @@
     <param name="robot_description" command="$(find xacro)/xacro $(find rokubimini_description)/urdf/$(arg sensor).urdf.xacro" />
     <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
-    <node if="$(arg is_ecat)" name="rviz" pkg="rviz" type="rviz" args="-d $(find bota_demo)/config/urdf_ecat.rviz" />
-    <node unless="$(arg is_ecat)" name="rviz" pkg="rviz" type="rviz" args="-d $(find bota_demo)/config/urdf_ser.rviz" />
+    <node if="$(arg imu)" name="rviz" pkg="rviz" type="rviz" args="-d $(find bota_demo)/config/urdf_ecat.rviz" />
+    <node unless="$(arg imu)" name="rviz" pkg="rviz" type="rviz" args="-d $(find bota_demo)/config/urdf_ser.rviz" />
 </launch>

@@ -13,12 +13,12 @@ force_torque_filter:
   fast_enable:      false
 
 force_torque_offset:
-  Fx: 35
-  Fy: 0.0
-  Fz: 80
-  Tx: 0.23
-  Ty: 0.58
-  Tz: 0.47
+  Fx: 37.3
+  Fy: 1.5
+  Fz: 89.3
+  Tx: 0.2
+  Ty: -0.6
+  Tz: -0.5
 
 sensor_configuration:        
   calibration_matrix_active:            true
