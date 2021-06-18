@@ -1,0 +1,6 @@
+bias: [-39.2, 3.5, -95.3, -0.17,
+  -0.64, -0.55]
+gripper_com_frame_id: /ft_sensor0_wrench
+gripper_com_pose: [0.00007, -0.00003, 0.01143,
+  0.0, 0.0, 0.0]
+gripper_mass: 0.203

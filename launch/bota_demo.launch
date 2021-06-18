@@ -4,21 +4,12 @@
     <!--bota driver parameters -->
     <arg name="standalone" default="true" />
     <!-- setting sampling rate to 0.0 means that the sampling rate is derived from the FT filter configuration of the device -->
-    <arg name="time_step" default="0.0"/>
+    <arg name="time_step" default="0.001"/>
     <arg name="num_spinners" default="1" />
     <arg name="launch_prefix" default="nice -n -10" />
     <arg name="launch_prefix_gdb" default="gdb -ex run --args" />
     <arg name="rokubimini_setup_file" default="$(find bota_demo)/config/setup.yaml" />
     <arg name="sensor_config_name" default="" />
-
-    <node name="rokubimini" pkg="bota_device_driver" type="bota_device_driver_node" output="screen" launch-prefix="$(arg launch_prefix)">
-        <param name="standalone" type="bool" value="$(arg standalone)"/>
-        <param name="num_spinners" type="int" value="$(arg num_spinners)"/>
-        <param name="time_step" type="double" value="$(arg time_step)"/>
-        <param name="rokubimini_setup_file" type="string" value="$(arg rokubimini_setup_file)"/>
-        <param name="sensor_config_name" type="string" value="$(arg sensor_config_name)"/>
-        <remap from="/rokubimini/ft_sensor0/ft_sensor_readings/imu" to="/imu/data_raw"/>
-    </node>
 
     <!-- imu filter node for orinentaion estimation -->
     <node if="$(arg imu)" name="imu_filter" pkg="imu_filter_madgwick" type="imu_filter_node">
@@ -27,10 +18,25 @@
         <param name="fixed_frame" type="string" value="odom"/>
     </node>
 
+    <!-- gravity compensation node -->
+    <node if="$(arg imu)" name="imu_gravity_compensation" pkg="gravity_compensation" type="gravity_compensation_node" cwd="node" respawn="false" output="screen">
+        <rosparam command="load" file="$(find bota_demo)/config/gravity_comp_adapter.yaml"/>
+        <remap from="/imu_gravity_compensation/ft_raw" to="/bus0/ft_sensor0/ft_sensor_readings/wrench" />
+        <remap from="/imu_gravity_compensation/imu" to="/imu/data_raw" />
+        <param name="loop_rate" value="100" />
+        <param name="ns" value=""/>
+        <param name="gripper_com_child_frame_id" value="load"/>
+    </node>
+
+
     <!-- URDF stuff -->
     <param name="robot_description" command="$(find xacro)/xacro $(find rokubimini_description)/urdf/$(arg sensor).urdf.xacro" />
     <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+    <!-- Visualization -->
+    <node if="$(arg imu)" name="multiplot" pkg="rqt_multiplot" type="rqt_multiplot" args="--multiplot-config $(find bota_demo)/config/zeroed_compensated_plot.xml"/> 
+    <node unless="$(arg imu)" name="multiplot" pkg="rqt_multiplot" type="rqt_multiplot" args="--multiplot-config $(find bota_demo)/config/force_torque_plot.xml"/> 
     <node if="$(arg imu)" name="rviz" pkg="rviz" type="rviz" args="-d $(find bota_demo)/config/urdf_ecat.rviz" />
     <node unless="$(arg imu)" name="rviz" pkg="rviz" type="rviz" args="-d $(find bota_demo)/config/urdf_ser.rviz" />
 </launch>
