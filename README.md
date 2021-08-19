@@ -44,15 +44,47 @@ catkin build bota_demo
 
 ### Launching
 
-Run the launch file which is related with your product, you can find your product name on the product label. Be careful and use root privileges if you are using an EtherCAT device (for Serial it's not necessary if you have included your user to the `dialout` group):
+Run the launch file which is related with your product, you can find your product name on the product label.
+
+#### Serial
+
+The `roslaunch` commands with only serial devices works without `root` privileges provided that the user is in the `dialout` group. This can be done with:
 
 ```bash
-    roslaunch bota_demo BFT_ROKA_ECAT_M8.launch
-    # OR
-    roslaunch bota_demo BFT_ROKA_SER_M8.launch
+sudo usermod -a -G dialout username
+```
+Please log off and log in again for the changes to take effect!
+
+To run the sensor you can use the following command as an example:
+```bash
+roslaunch bota_demo BFT_ROKA_SER_M8.launch
 ```
 
-For more complicated examples have a look at BFT_SENS_ECAT_M8_realsense.launch to see how to combine our sensor with a realsense camera
+#### EtherCAT
+
+The EtherCAT device driver is using SOEM which requires access to certain network capabilities as it is using raw sockets, and as such any executable linking against SOEM needs to be run with certain privileges.
+Typically, you would run any SOEM executables with `sudo` or as `root`. This is impractical for any ROS system, and as such there exists a tool called [`ethercat_grant`](https://github.com/shadow-robot/ethercat_grant) that helps with that.
+
+If you followed the installation instructions for the [`bota_driver`](https://gitlab.com/botasys/bota_driver), `ethercat_grant` is already installed. Alternatively, you can install it with
+```bash
+sudo apt install ros-<DISTRO>-ethercat-grant
+```
+and add the following `launch prefix` to the `node` tag of the `rokubimini_ethercat_bus_manager_node` in your launch file:
+```xml
+launch-prefix="ethercat_grant"
+```
+**Note:** This launch prefix is already added to all the launch files in this repo.
+
+To run the sensor you can use the following command as an example:
+```bash
+roslaunch bota_demo BFT_ROKA_ECAT_M8.launch
+```
+For more complicated examples have a look at `BFT_SENS_ECAT_M8_realsense.launch` to see how to combine our sensor with a realsense camera.
+
+##### (Alternative:) EtherCAT without launch prefix
+
+Instead of using the `ethercat_grant` launch prefix, the above command to interface with your EtherCAT sensor can also be combined with escalated privileges (e.g. `su root` or `sudo su`, if you don't have set a `root` password).
+
 
 ## Support
 

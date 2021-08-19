@@ -1,6 +1,6 @@
 <launch>
   <arg name="ft_sensor_a_name"                 default="ft_sensor0"/>
-  <node name="bus0" pkg="rokubimini_ethercat" type="rokubimini_ethercat_bus_manager_node"  output="screen" required="true">
+  <node name="bus0" pkg="rokubimini_ethercat" type="rokubimini_ethercat_bus_manager_node" launch-prefix="ethercat_grant" output="screen" required="true">
     <param name="num_spinners"                              type="int"      value="1"/>
     <param name="time_step"                                 type="double"   value="0.01"/>
     <param name="ethercat_bus"  type="string"   value="enxd8eb97bf2f1a"/>
