@@ -2,7 +2,7 @@
     <arg name="sensor" default="BFT_ROKA_ECAT_M8_robot" />
     <arg name="imu" default="true" />
 
-    <!-- imu filter node for orinentaion estimation -->
+    <!-- imu filter node for orientation estimation -->
     <node if="$(arg imu)" name="imu_filter" pkg="imu_filter_madgwick" type="imu_filter_node">
         <param name="reverse_tf" type="bool" value="true"/>
         <param name="use_mag" type="bool" value="false"/>
@@ -18,7 +18,6 @@
         <param name="ns" value=""/>
         <param name="gripper_com_child_frame_id" value="load"/>
     </node>
-
 
     <!-- URDF stuff -->
     <param name="robot_description" command="$(find xacro)/xacro $(find rokubimini_description)/urdf/$(arg sensor).urdf.xacro" />

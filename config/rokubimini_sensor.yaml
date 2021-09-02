@@ -9,16 +9,16 @@ imu_angular_rate_filter: 5
 force_torque_filter:
   sinc_filter_size: 512
   chop_enable:      false
-  fir_disable:      false
+  fir_disable:      true
   fast_enable:      false
 
 force_torque_offset:
-  Fx: 37.3
-  Fy: 1.5
-  Fz: 89.3
-  Tx: 0.2
-  Ty: -0.6
-  Tz: -0.5
+  Fx: 0.0
+  Fy: 0.0
+  Fz: 0.0
+  Tx: 0.0
+  Ty: 0.0
+  Tz: 0.0
 
 sensor_configuration:        
   calibration_matrix_active:            true
