@@ -6,7 +6,7 @@
     <param name="ethercat_bus"  type="string"   value="enxd8eb97bf2f1a"/>
     <param name="rokubiminis/$(arg ft_sensor_a_name)/name" type="string" value="$(arg ft_sensor_a_name)"/>
     <param name="rokubiminis/$(arg ft_sensor_a_name)/product_name" type="string" value="BFT-ROKS-ECAT-M8"/>
-    <rosparam ns="rokubiminis/$(arg ft_sensor_a_name)" command="load" file="$(find rokubimini)/config/rokubimini_sensor.yaml" />
+    <rosparam ns="rokubiminis/$(arg ft_sensor_a_name)" command="load" file="$(find bota_demo)/config/rokubimini_sensor.yaml" />
     <param name="rokubiminis/$(arg ft_sensor_a_name)/ethercat_address" type="int"   value="1"/>
     <remap from="/bus0/ft_sensor0/ft_sensor_readings/imu" to="/imu/data_raw"/>
   </node>
