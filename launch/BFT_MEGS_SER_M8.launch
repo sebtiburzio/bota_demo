@@ -7,12 +7,12 @@
 <!--    <param name="time_step"                                 type="double"   value="0.01"/>-->
     <param name="port"  type="string"   value="/dev/ttyUSB0"/>
     <param name="rokubiminis/$(arg ft_sensor_a_name)/name" type="string" value="$(arg ft_sensor_a_name)"/>
-    <param name="rokubiminis/$(arg ft_sensor_a_name)/product_name" type="string" value="BFT-ROKA-SER-M8"/>
+    <param name="rokubiminis/$(arg ft_sensor_a_name)/product_name" type="string" value="BFT-MEGS-SER-M8"/>
     <rosparam ns="rokubiminis/$(arg ft_sensor_a_name)" command="load" file="$(find bota_demo)/config/rokubimini_sensor.yaml" />
   </node>
 
     <include file="$(find bota_demo)/launch/bota_demo.launch">
-        <arg name="sensor" value="BFT_ROKA_SER_M8_robot" />
+        <arg name="sensor" value="BFT_MEGS_SER_M8_robot" />
         <arg name="imu" value="false" />
     </include>
 </launch>
