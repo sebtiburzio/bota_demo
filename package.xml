@@ -51,7 +51,7 @@
   <buildtool_depend>catkin</buildtool_depend>
   <exec_depend>rokubimini_ethercat</exec_depend>
   <exec_depend>rokubimini_serial</exec_depend>
-  <exec_depend>rviz-imu-plugin</exec_depend>
+  <exec_depend>rviz_imu_plugin</exec_depend>
   <exec_depend>imu_complementary_filter</exec_depend>
   <exec_depend>imu_filter_madgwick</exec_depend>
   <exec_depend>rokubimini_description</exec_depend>
