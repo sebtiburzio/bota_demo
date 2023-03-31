@@ -1,0 +1,8 @@
+# bias: [1.0485343996925047, -25.96279822237, 2.6964488229672328, -0.5176943561093796, -0.07497662393044688, 0.04162415201923267]
+## Recommended to leave the static bias 0 and use ResetWrench service to zero the reading online
+bias: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+gripper_com_frame_id: /ft_sensor0_wrench
+gripper_com_pose: [-0.001120736577523712, -0.0007634815679012206, -0.006164137493334737,
+  0.0, 0.0, 0.0]
+gripper_mass: 0.07863485697887121
+

@@ -1,0 +1,32 @@
+<launch>
+    <arg name="sensor" default="BFT_ROKA_ECAT_M8_robot" />
+    <arg name="imu" default="true" />
+
+    <!-- imu filter node for orientation estimation -->
+    <node if="$(arg imu)" name="imu_filter" pkg="imu_filter_madgwick" type="imu_filter_node">
+        <param name="reverse_tf" type="bool" value="true"/>
+        <param name="use_mag" type="bool" value="false"/>
+        <param name="fixed_frame" type="string" value="odom"/>
+    </node>
+
+    <!-- gravity compensation node -->
+    <node if="$(arg imu)" name="imu_gravity_compensation" pkg="gravity_compensation" type="gravity_compensation_node" cwd="node" respawn="false" output="screen">
+        <rosparam command="load" file="$(find bota_demo)/config/gravity_comp_ft.yaml"/>
+        <remap from="/imu_gravity_compensation/ft_raw" to="/bus0/ft_sensor0/ft_sensor_readings/wrench" />
+        <remap from="/imu_gravity_compensation/imu" to="/imu/data_raw" />
+        <param name="loop_rate" value="100" />
+        <param name="ns" value=""/>
+        <param name="gripper_com_child_frame_id" value="load"/>
+    </node>
+
+    <!-- URDF stuff - not needed when using panda_moveit_config for FR3 control -->
+    <!-- param name="robot_description" command="$(find xacro)/xacro $(find rokubimini_description)/urdf/$(arg sensor).urdf.xacro" /> -->
+    <!-- <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" /> -->
+    <!-- <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" /> -->
+
+    <!-- Visualization -->
+    <node if="$(arg imu)" name="multiplot" pkg="rqt_multiplot" type="rqt_multiplot" args="--multiplot-config $(find bota_demo)/config/zeroed_compensated_plot.xml --multiplot-run-all"/>
+    <node unless="$(arg imu)" name="multiplot" pkg="rqt_multiplot" type="rqt_multiplot" args="--multiplot-config $(find bota_demo)/config/force_torque_plot.xml --multiplot-run-all"/>
+    <!-- <node if="$(arg imu)" name="rviz" pkg="rviz" type="rviz" args="-d $(find bota_demo)/config/urdf_ecat.rviz" /> -->
+    <!-- <node unless="$(arg imu)" name="rviz" pkg="rviz" type="rviz" args="-d $(find bota_demo)/config/urdf_ser.rviz" /> -->
+</launch>
