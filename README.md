@@ -1,3 +1,13 @@
+# Getting started using Bota FT sensors with FR3 arms
+
+- Firstly, you will need the [BOTA driver](https://gitlab.com/botasys/bota_driver). Install it and read the instructions for the driver, as well as the Bota Demo repo instructions (below)
+- Modifications to the franka_ros package are also required, see [here](https://github.com/sebtiburzio/franka_ros.git)
+- This repo contains slightly modified launch files (with '_fr3' added to the file names) which will set up the driver to measure the wrist wrench for an FR3 arm
+- 'Fake' gravity compensation is done using the orientation of the robot wrist link. The mass/COM properties used for compensation are stored in `config/gravity_comp_*.yaml`. Calibration has been done for the empty sensor and the Franka Hand, using the procedure from the `force_torque_tools` package, see [here](https://github.com/sebtiburzio/force_torque_tools.git). You can use that package to calibrate a different gripper (change loaded config [here](https://github.com/sebtiburzio/bota_demo/blob/bc8981895af2fb803224e503d5fd2072dca7bbd9/launch/bota_fr3.launch#L14))
+- The static bias in the configs has not been set, as it is recommended to set this manually after launching the sensor/robot using the `ResetWrench` action (orient the sensor vertically and set all to zero except the known gripper weight in Z axis).
+
+The rest of the instructions below are from the upstream Bota Demo repo.
+
 # BOTA Demo - README
 
 ## Overview
