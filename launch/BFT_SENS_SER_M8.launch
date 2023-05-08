@@ -1,7 +1,8 @@
 <launch>
+  <arg name="launch_prefix_gdb" default="" />
   <arg name="ft_sensor_a_name"                 default="ft_sensor0"/>
   <arg name="imu"                              default="false" />
-  <node name="bus0" pkg="rokubimini_serial" type="rokubimini_serial_bus_manager_node"  output="screen" required="true">
+  <node name="bus0" launch-prefix="$(arg launch_prefix_gdb)" pkg="rokubimini_serial" type="rokubimini_serial_bus_manager_node"  output="screen" required="true">
     <param name="num_spinners"                              type="int"      value="1"/>
 <!--    The time_step parameter sets the ROS publishing frequency, not the sensor update rate -->
 <!--    If no time_step is set, the topic is published with the frequency of the sensor. -->
