@@ -4,5 +4,6 @@ bias: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 gripper_com_frame_id: /ft_sensor0_wrench
 gripper_com_pose: [-0.001120736577523712, -0.0007634815679012206, -0.006164137493334737,
   0.0, 0.0, 0.0]
-gripper_mass: 0.07863485697887121
-
+# gripper_mass: 0.07863485697887121
+## Currently not compensating the FT flange weight instead incorporate in base mass of object
+gripper_mass: 0.0
